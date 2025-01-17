@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style_logCad.css">
+    <title>Cadastro</title>
+</head>
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-in">
+            <form class="form" method="post" action="{{url_for('register')}}">
+                <h1>Cadastre-se</h1>
+                <br>
+                <span>Insira seus dados pessoais para fazer o cadastro </span> <br>
+
+                <label class="label-input" for="nome">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" placeholder="Nome" for="nome" name="nome">
+                </label>
+
+                <label class="label-input" for="email">
+                    <i class="far fa-envelope icon-modify"></i>
+                    <input type="email" placeholder="usuario@example.com" for="email" name="email">
+                </label>
+
+                <label class="label-input" for="telefoe">
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="tel" placeholder="(XX) XXXX-XXXX" for="telefone" name="telefone">
+                </label>
+
+                <label class="label-input" for="endereco">
+                    <i class="fa-sharp fa-solid fa-location-dot"></i>
+                    <input type="text" placeholder="Endereço" for="endereco" name="endereco">
+                </label>
+                <br>
+
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-right">
+                    <h1>Bem vindo!</h1>
+                    <p>Crie uma conta e desfrute da nossa Biblioteca Online!</p><br>
+                    <img src="{{ url_for('static', filename='images/cad_imageB.svg') }}" alt="Imagem de Cadastro" class="cadastro-image">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="static/js_index.js"></script>
+</body>
+
+</html>
