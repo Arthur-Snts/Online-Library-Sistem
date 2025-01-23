@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style_logCad.css">
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="static/images/bluebooklog.png" alt="Logo do Sistema" id="logo-sistema">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('index')}}">Home</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container_cadliv" id="container_cadliv">
+                <form class="form" method="post" action="{{url_for('register_livros')}}">
+                    <br>
+                    <h1>Novo Livro</h1>
+                    <br>
+                    <span>Insira os dados e crie um novo livro
+                    </span> <br>
+        
+                    <label class="label-input" for="titulo">
+                        <i class="fa-solid fa-heading"></i> <!--modificar p/ icon de livro-->
+                        <input type="text" placeholder="Título do livro" for="titulo" name="titulo">
+                    </label>
+        
+                    <label class="label-input" for="autor">
+                        <i class="fa-solid fa-feather"></i> <!--modificar p/ icon de autor -->
+                        <input type="text" placeholder="Nome do autor" for="autor" name="autor">
+                    </label>
+        
+                    <label class="label-input" for="genero">
+                        <i class="fa-solid fa-book"></i> <!--modificar p/ icon de genero de livro -->
+                        <input type="text" placeholder="Gênero do livro" for="genero" name="genero">
+                    </label>
+        
+                    <label class="label-input" for="isbn">
+                        <i class="fa-solid fa-tag"></i> <!--modificar p/ icon de ISBN(nem sei o que é isso) -->
+                        <input type="text" placeholder="ISBN" for="isbn" name="isbn">
+                    </label>
+                    
+                    <label class="label-input" for="estoque">
+                        <i class="fa-solid fa-box"></i><!--modificar p/ icon de estoque de livro -->
+                        <input type="text" placeholder="Quantidade em estoque" for="estoque" name="estoque">
+                    </label>
+                    
+                    <button type="submit">Concluir</button>
+                </form>
+        </div>
+
+        <div class="container_cadliv" id="container_cadliv">
+            <div class="container_user">
+                <h1>Lista de Livros</h1>
+
+                <form method="POST" class="filter-form">
+                    <div class="teste">
+                        <div class="filter-group">
+                            <label for="status">Filtrar:</label>
+                            <select name="status" id="status">
+                                <option value="Crescente">Aa-Zz</option>
+                                <option value="Decrescente">Zz-Aa</option>
+                            </select>
+
+                            <button type="submit" class="butao_filtrar">Filtrar</button>
+                        </div>
+
+                    </div>
+                                   
+                </form>
+                <div class="table-scroll-container-2">
+                    <table>
+                        <tbody>
+                            {% for livro in tb_livros %}
+                            <tr>
+                                <td><a href="{{ url_for('dados_usuarios', livro_id=livro.liv_id) }}">{{ livro.liv_titulo }}</a></td>
+                            </tr>
+                           
+                            {% endfor %}
+                        </tbody>
+                    </table> 
+                </div>                
+            </div>
+        </div>
+    
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 - Biblioteca Online - BlueBook. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="static/js_index.js"></script>
+</body>
+
+</html>
+
+
+
+

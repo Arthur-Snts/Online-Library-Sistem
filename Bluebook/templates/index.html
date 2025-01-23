@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="static/css/style_index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="static\images\bluebooklog.png" alt="Logo do Sistema" id="logo-sistema">
+        </div>
+
+        <nav>
+            <ul>
+                <li>
+                    <i class="fa-solid fa-user fa-xl"></i>
+                </li>
+
+                <li><p id="li_p">Administrador</p></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="intro_cadliv">
+            <h3>Novo Leitor</h3>
+            <br>
+            <p>Use a função "Novo Leitor" para cadastrar um novo Usuário</p>
+            <img src="{{ url_for('static', filename='images/index_Nu.svg') }}" alt="Imagem" class="New_user_image">
+            <br>
+            <a href="{{url_for('register')}}"><button>Entrar</button></a>
+        </div>
+
+        <div class="intro_cadliv">
+            <h3>Novo Livro</h3>
+            <br>
+            <p>Use a função "Novo Livro" para cadastrar um novo Livro</p>
+            <img class="image-index_NL" src="{{ url_for('static', filename='images/index_NL.svg') }}" alt="Imagem" class="New_user_image">
+            <br>
+            <a href="{{url_for('register_livros')}}"><button>Entrar</button></a>
+        </div>
+
+        <div class="intro_cadliv">
+            <h3>Empréstimos</h3>
+            <br>
+            <p>Use a função "Novo Leitor" para cadastrar um novo Usuário</p>
+            <img class="image-index_EP" src="{{ url_for('static', filename='images/index_EP.svg') }}" alt="Imagem" class="New_user_image">
+            <br>
+            <a href="{{url_for('emprestimos')}}"><button>Entrar</button></a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 - Biblioteca Online - BlueBook. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
