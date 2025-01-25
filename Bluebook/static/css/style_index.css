@@ -134,6 +134,14 @@ main {
     margin-right: 30px;
 }
 
+.image-index-list{
+    max-width: 231px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+    margin-right: 30px;
+}
+
 button {
     background-color: #279ce4;
     color: #fff;

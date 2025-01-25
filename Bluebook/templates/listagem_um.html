@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style_logCad.css">
+    <title>Listagem - Um</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="/static/images/bluebooklog.png" alt="Logo do Sistema" id="logo-sistema">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('index')}}">Home</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div  class="container_list" id="container_list">
+            <div class="container_userd">
+                <h1 style="font-size: 20px;">Total de empréstimos em reais por usuário:</h1>
+                <form method="POST" class="form">  
+
+                    <div class="teste">
+
+                        <div class="filter-list">
+                            <label for="">Selecione o usuario:</label>
+                            <select name="usuario" >
+                                <option value=""></option>
+                                    {% for usuario in consulta_usuarios %}
+                                        <option value="{{usuario.use_id}}">{{usuario.use_nome}}</option>
+                                    {% endfor %}
+                            </select>
+
+                            <label for="">Data inicial:</label>
+                            <input type="date" name="data1">
+                            <label for="">Data final:</label>
+                            <input type="date" name="data2">
+
+                            <button type="submit" class="butao_filtrar">Filtrar</button>
+                        </div>
+
+                 </div> 
+                                   
+                </form>
+                <div class="table-scroll-container-2">
+                    <table>
+                        <tbody>
+                            {% for emp in total_emprestimos %}
+                            <tr>
+                                <td>{{ emp.use_nome }}: {{emp.soma}}</td>
+                            </tr>
+                           
+                            {% endfor %}
+                        </tbody>
+                    </table> 
+                </div>                
+            </div>
+        </div>
+    
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 - Biblioteca Online - BlueBook. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="static/js_index.js"></script>
+</body>
+
+</html>
+
+
+
+

@@ -25,6 +25,7 @@ body {
     font-size: 14px;
 }
 
+
 .filter-group {
     display: flex;
     justify-content: space-around;
@@ -48,9 +49,55 @@ body {
     margin-bottom: 15px;
 }
 
+.filter-list button {
+    background-color: #279ce4;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    margin-left: 25px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
 .teste {
     width: 100%;
 }
+
+.filter-list input{
+    background-color: #eee;
+    border: none;
+    margin: 1px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 12%;
+    outline: none;
+    margin-left: 5px;
+}
+
+.filter-list select {
+    background-color: #eee;
+    height: 40px;
+    width: 20%;
+    padding: 10px;
+    border:none;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-left: 5px
+}
+
+.filter-list label {
+    align-items: center; 
+    margin-bottom: 10px; 
+    margin-left:20px;
+}
+
 header {
     background-color: white;
     color: #fff;
@@ -461,4 +508,14 @@ footer {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     font-size: 12px;
+}
+
+#status {
+    height: 40px;
+    width: 40%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-left: 5px;
 }

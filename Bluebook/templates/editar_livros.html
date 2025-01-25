@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style_logCad.css">
+    <title>Editar Dados do Livro</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="/static/images/bluebooklog.png" alt="Logo do Sistema" id="logo-sistema">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{url_for('index')}}">Home</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container_cadliv" id="container_cadliv">
+                <form class="form" method="post" action="{{url_for('books.editar_book', id = book.boo_id)}}">
+                    <br>
+                    <h1>Editar dados do Livro</h1>
+                    <br>
+                    <span>Insira os novos dados do livro
+                    </span> <br>
+        
+                    <label class="label-input" for="titulo">
+                        <i class="fa-solid fa-heading"></i> 
+                        <input type="text" placeholder="Título do livro" for="titulo" name="titulo" value="{{book.boo_titulo}}">
+                    </label>
+        
+                    <label class="label-input" for="autor">
+                        <i class="fa-solid fa-feather"></i> 
+                        <input type="text" placeholder="Nome do autor" for="autor" name="autor"value="{{book.boo_autor}}">
+                    </label>
+        
+                    <label class="label-input" for="genero">
+                        <i class="fa-solid fa-book"></i> 
+                        <input type="text" placeholder="Gênero do livro" for="genero" name="genero"value="{{book.boo_genero}}">
+                    </label>
+        
+                    <label class="label-input" for="isbn">
+                        <i class="fa-solid fa-tag"></i>
+                        <input type="text" placeholder="ISBN" for="isbn" name="isbn"value="{{book.boo_isbn}}">
+                    </label>
+                    
+                    <label class="label-input" for="estoque">
+                        <i class="fa-solid fa-box"></i>
+                        <input type="text" placeholder="Quantidade em estoque" for="estoque" name="estoque" value="{{book.boo_quant_estoque}}">
+                    </label>
+                    
+                    <button type="submit">Concluir</button>
+                </form>
+        </div>
+    
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 - Biblioteca Online - BlueBook. Todos os direitos reservados.</p>
+    </footer>
+</body>
+
+</html>
+
+
+
+
