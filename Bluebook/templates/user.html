@@ -59,7 +59,7 @@
             <div class="container_user">
                 <h1>Lista de Usuários <a href="{{url_for('users.dados_users') }}">Detalhar</a></h1>
 
-                <form method="POST" class="filter-form">
+                <form method="POST" class="filter-form" action="{{ url_for('users.listar_user' ) }}">
                     <div class="teste">
                         <div class="filter-group">
                             <label for="status">Filtrar:</label>
