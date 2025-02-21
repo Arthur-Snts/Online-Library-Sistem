@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static\css\style_logCad.css">
+    <title> Cadastro </title>
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-in">
+            <form>
+                <h1 style="margin-bottom: 19px;">Cadastro</h1>
+                <span>Forneça os detalhes requeridos</span >
+                <input type="text" placeholder="Nome" for="nome">
+                <input type="email" placeholder="Email" for="email">
+                <input type="senha" placeholder="Senha" for="senha">
+                <select name="tipo_uset"  for="tipo_user">
+                    <option value="">Tipo de Usuário</option>
+                    <option value="admin">Administrador</option>
+                    <option value="funcionario">Funcionário</option>
+                </select>
+                <button>Cadastrar</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-right">
+                    <h1>Novo Usuário</h1>
+                    <p>Informe os dados necessários para cadastrar um novo usuário</p>
+                    <img class="image-index-list" src="{{ url_for('static', filename='images/cad_image.svg') }}" alt="Imagem" >
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
