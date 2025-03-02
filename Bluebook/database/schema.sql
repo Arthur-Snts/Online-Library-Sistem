@@ -61,10 +61,10 @@ BEGIN
     DECLARE quantidade_dias INT;
     DECLARE valor_multa DECIMAL(10, 2);
     
-	SELECT len_data_devolucao INTO data_devolucao FROM tb_lending WHERE len_boo_id = id_livro;
+    SELECT len_data_devolucao INTO data_devolucao FROM tb_lending WHERE len_boo_id = id_livro;
     SELECT len_valor INTO valor_emprestimo FROM tb_lending WHERE len_boo_id = id_livro;
     
-	SET data_ultrapassada = CURDATE();
+    SET data_ultrapassada = CURDATE();
      
     SET quantidade_dias = DATEDIFF(data_ultrapassada, data_devolucao);
     
