@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS tb_lending(
     len_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     len_data_emprestimo DATE NOT NULL,
     len_data_devolucao DATE NOT NULL,
-    len_devoldivo BOOLEAN NOT NULL,
+    len_devolvido BOOLEAN NOT NULL,
     len_valor DECIMAL(10, 2),
     len_boo_id INT NOT NULL,
     len_use_id INT NOT NULL,
