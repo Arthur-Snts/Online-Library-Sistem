@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <title>Dados dos Usuários</title>
+</head>
+
+<body>
+    <nav id="sidebar">
+        <div id="sidebar_content">
+            <div id="user">
+                <img src="static/images/avatar3.jpg " id="user_avatar" alt="Avatar">
+    
+                <p id="user_infos">
+                    <span class="item-description">
+                        Tipo de usuário 
+                        <!-- Usuário Admin ou Funcionário ? Pegar no banco  -->
+                    </span>
+                    <span class="item-description">
+                        Usuário do sistema
+                    </span>
+                </p>
+            </div>
+    
+            <ul id="side_items">
+               
+                <li class="side-item">
+                    <a href="{{url_for('index')}}">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span class="item-description">
+                            Página inicial
+                        </span>
+                    </a>
+                </li>
+
+                  <!-- Funcionalidade Admin -->
+                  <!-- <li class="side-item">  
+                    <a href="{{url_for('cadastro')}}">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="item-description">
+                            Adicionar Usuários do Sistema
+                        </span>
+                    </a>
+                </li> -->
+
+                  <!-- Funcionalidade Admin -->
+                  <!-- <li class="side-item">
+                    <a href="{{url_for('logs')}}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span class="item-description">
+                            Logs no sistema 
+                        </span>
+                    </a>
+                </li> -->
+
+                <li class="side-item">
+                    <a href="{{url_for('user')}}">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        <span class="item-description">
+                            Adicionar Leitor
+                        </span>
+                    </a>
+                </li>
+
+                <li class="side-item ">
+                    <a href="{{url_for('book')}}">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="item-description">
+                            Adicionar Livro
+                        </span>
+                    </a>
+                </li>
+
+                <li class="side-item" >
+                    <a href="{{url_for('lending')}}">
+                        <i class="fa-solid fa-money-check-dollar"></i>
+                        <span class="item-description">
+                            Realizar Empréstimo
+                        </span>
+                    </a>
+                </li>
+
+                <li class="side-item">
+                    <a href="{{url_for('pg_listagem')}} ">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="item-description">
+                            Listagens
+                        </span>
+                    </a>
+                </li>
+
+                <li class="side-item">
+                    <a href="{{url_for('editar_usuarios')}}">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span class="item-description">
+                            Editar Leitor
+                        </span>
+                    </a>
+                </li>
+
+
+                <li class="side-item">
+                    <a href="{{url_for('editar_livros')}}">
+                        <i class="fa-solid fa-file-pen"></i>
+                        <span class="item-description">
+                           Editar Livro
+                        </span>
+                    </a>
+                </li>
+
+                <li class="side-item">
+                    <a href="{{url_for('editar_emprestimos')}}">
+                        <i class="fa-solid fa-money-bill-trend-up"></i>
+                        <span class="item-description">
+                          Editar Empréstimos
+                        </span>
+                    </a>
+                </li>
+                
+                <li class="side-item active">
+                    <a href="{{url_for('dados_usuarios')}}">
+                        <i class="fa-solid fa-users"></i>
+                        <span class="item-description">
+                          Dados - Usuários
+                        </span>
+                    </a>
+                </li>
+
+                <li class="side-item">
+                    <a href="{{url_for('dados_livros')}}">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span class="item-description">
+                          Dados - Livros
+                        </span>
+                    </a>
+                </li>
+
+                <li class="side-item">
+                    <a href="{{url_for('dados_emprestimos')}}">
+                        <i class="fa-solid fa-money-check"></i>
+                        <span class="item-description">
+                          Dados - Empréstimos
+                        </span>
+                    </a>
+                </li>
+            </ul>
+           
+            <button id="open_btn">
+                <i id="open_btn_icon" class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div id="logout">
+            <button id="logout_btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="item-description">
+                    Logout
+                </span>
+            </button>
+        </div>
+    </nav>
+
+    <header>
+        <div class="logo">
+                <img src="static/images/bluebooklog.png" alt="Logo">
+        </div> 
+    </header>
+
+    <main>
+        <div class="container_list container_list2" id="container_list">
+            <div class="container_userd">
+                <h1>Dados do Usuário</h1>
+                <h1 style="font-size: 20px;">{{mensagem}}</h1>
+                <br>
+
+                <div class="table-scroll-container">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Endereço</th>
+                                <th>Telefone</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- {% for user in users %} -->
+                            <tr>
+                                <!-- <td>{{user.use_nome}}</td>
+                                <td>{{user.use_endereco}}</td>
+                                <td>{{user.use_telefone}}</td>
+                                <td>{{user.use_email}}</td> -->
+                                <td id="td-button">
+                                    <button type="submit" id="editar"><a href="{{ url_for('users.editar_user', id=user.use_id) }}" style="text-decoration: none; color: white;">Editar</a></button>
+                                    <button type="submit" id="excluir"><a href="{{ url_for('users.excluir_user', id=user.use_id) }}" style="text-decoration: none; color: white;">Excluir</a></button>
+                                </td>
+                            </tr>
+                            <!-- {% endfor %} -->
+                        </tbody>
+                        
+                    </table>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+    </main>
+    <script>
+        document.getElementById('open_btn').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open-sidebar');
+        });
+    </script>
+</body>
+
+</html>
+
+
+
