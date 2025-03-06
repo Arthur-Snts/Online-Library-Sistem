@@ -45,8 +45,7 @@ CREATE TABLE IF NOT EXISTS tb_logs (
     log_usu_id INT NOT NULL,
     log_usuario TEXT NOT NULL,
     log_data_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (log_len_id)
-        REFERENCES tb_lending (len_id),
+    
     FOREIGN KEY (log_usu_id)
         REFERENCES tb_users (use_id)
 );
@@ -148,5 +147,42 @@ BEGIN
         END IF;
     END IF;
 END //
+
+DELIMITER ;
+
+
+#GATILHOS
+DELIMITER //
+
+CREATE TRIGGER trg_lending_after_insert
+AFTER INSERT ON tb_lending
+FOR EACH ROW
+BEGIN
+    INSERT INTO tb_logs (log_operacao, log_len_id, log_usu_id, log_usuario)
+    VALUES ('INSERT', NEW.len_id, NEW.len_use_id, (SELECT use_nome FROM tb_users WHERE use_id = NEW.len_use_id));
+END;
+
+//
+
+CREATE TRIGGER trg_lending_after_update
+AFTER UPDATE ON tb_lending
+FOR EACH ROW
+BEGIN
+
+    INSERT INTO tb_logs (log_operacao, log_len_id, log_usu_id, log_usuario)
+    VALUES ('UPDATE', NEW.len_id, NEW.len_use_id, (SELECT use_nome FROM tb_users WHERE use_id = NEW.len_use_id));
+END;
+
+//
+
+CREATE TRIGGER trg_lending_after_delete
+AFTER DELETE ON tb_lending
+FOR EACH ROW
+BEGIN
+   INSERT INTO tb_logs (log_operacao, log_len_id, log_usu_id, log_usuario)
+   VALUES ('DELETE', OLD.len_id, OLD.len_use_id, (SELECT use_nome FROM tb_users WHERE use_id = OLD.len_use_id));
+END;
+
+//
 
 DELIMITER ;
