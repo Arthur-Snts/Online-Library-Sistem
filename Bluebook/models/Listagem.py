@@ -7,8 +7,8 @@ class Listagem():
     def um(cls, use_id,data1, data2):
         conn = obter_conexao()  
         cursor = conn.cursor(dictionary=True)
-        query = f"SELECT lei_nome, sum(len_valor) as soma FROM tb_lending JOIN tb_leitor ON len_lei_id = lei_id WHERE lei_id = {use_id} and (len_data_emprestimo between '{data1}' and '{data2}') "
-        cursor.execute(query)
+        query = "SELECT lei_nome, sum(len_valor) as soma FROM tb_lending JOIN tb_leitores ON len_lei_id = lei_id WHERE lei_id = %s and (len_data_emprestimo between %s and %s) "
+        cursor.execute(query, (use_id, data1, data2,))
         total_emprestimos = cursor.fetchall()
         cursor.close()
         conn.close()
@@ -50,7 +50,7 @@ class Listagem():
     def logs(cls):
         conn = obter_conexao()  
         cursor = conn.cursor(dictionary=True)
-        query = "select * from tb_logs join tb_leitores on log_lei_id = lei_id"
+        query = "select * from tb_logs join tb_leitores on log_lei_id = lei_id order by log_data_hora"
         cursor.execute(query)
         logs = cursor.fetchall()
         cursor.close()

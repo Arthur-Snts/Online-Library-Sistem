@@ -14,11 +14,10 @@
 
                         <div class="filter-list">
                             <label for="">Selecione o usuario:</label>
-                            <select name="usuario" >
-                                <option value=""></option>
-                                    <!-- {% for usuario in consulta_usuarios %} -->
-                                        <!-- <option value="{{usuario.use_id}}">{{usuario.use_nome}}</option> -->
-                                    <!-- {% endfor %} -->
+                            <select name="usuario">
+                                    {% for usuario in consulta_usuarios %}
+                                        <option value="{{usuario.lei_id}}">{{usuario.lei_nome}}</option>
+                                    {% endfor %}
                             </select>
 
                             <label for="">Data inicial:</label>
@@ -35,12 +34,12 @@
                 <div class="table-scroll-container-2">
                     <table>
                         <tbody>
-                            <!-- {% for emp in total_emprestimos %} -->
+                            {% for emp in total_emprestimos %} 
                             <tr>
-                                <!-- <td>{{ emp.use_nome }}: {{emp.soma}}</td> -->
+                                <td>{{ emp.lei_nome }}: {{emp.soma}}</td> 
                             </tr>
                            
-                            <!-- {% endfor %} -->
+                            {% endfor %} 
                         </tbody>
                     </table> 
                 </div>                
