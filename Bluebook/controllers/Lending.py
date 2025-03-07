@@ -18,9 +18,8 @@ def register_lending():
         devolucao = request.form["devolucao"]
         valor = request.form["valor"]
         user = current_user.id
-        Lending.cadastro(usuario=usuario, livro=livro, devolucao=devolucao, valor=valor, user = user)
-
-        return redirect(url_for("lendings.listar_lending"))
+        mensagem = Lending.cadastro(usuario=usuario, livro=livro, devolucao=devolucao, valor=valor, user = user)
+        return redirect(url_for("lendings.listar_lending", mensagem=mensagem))
 
     else:
         consulta_leitores = Leitor.all()
@@ -46,7 +45,7 @@ def listar_lending():
     consulta_usuarios = Leitor.all()
     consulta_livros = Book.all()
     user = current_user
-    return render_template('lending.html', emprestimos=emprestimos , consulta_livros=consulta_livros, consulta_usuarios=consulta_usuarios, user = user )
+    return render_template('lending.html', emprestimos=emprestimos , consulta_livros=consulta_livros, consulta_leitores=consulta_usuarios, user = user )
 
 @bp.route('/dados_emprestimos/')
 @login_required
@@ -83,6 +82,18 @@ def editar_lending(id):
 def excluir_lending(id):
     Lending.delete(id)
     return redirect(url_for('lendings.dados_emprestimos'))
+
+@bp.route('/devolver/<int:id>')
+@login_required
+def devolver(id):
+    conn = obter_conexao()
+    cursor = conn.cursor()
+    query = 'UPDATE tb_lending SET len_devolvido =%s WHERE len_id = %s'
+    cursor.execute(query, (True, id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return redirect(url_for("lendings.dados_emprestimos"))
 
 
 

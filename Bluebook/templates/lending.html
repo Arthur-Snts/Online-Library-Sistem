@@ -4,7 +4,7 @@
     {% endblock %}
     {% block content %}
         <div class="container_cadliv" id="container_cadliv">
-                <form class="form" method="post" action="#">
+                <form class="form" method="post" action="{{ url_for('lendings.register_lending' ) }}">
                     <br>
                     <h1>Empréstimos</h1>
                     <br>
@@ -62,7 +62,7 @@
                                 <option value="">Recente - Antigo</option>
                                 <option value="desc">Antigo - Recente</option>
                             </select>
-
+                            <span>{{mensagem}}</span>
                             <button type="submit" class="butao_filtrar">Filtrar</button>
                         </div>
 

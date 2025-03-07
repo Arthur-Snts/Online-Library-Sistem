@@ -11,13 +11,13 @@ def login():
         senha = request.form["senha"]
         users = User.all()
         for usuario in users:
-            print(usuario[1])
             if nome in usuario[1]:
                 user = User.nome(nome=nome)
                 if user.senha == senha:
                     login_user(user)
                     return redirect(url_for("index"))
-        return redirect(url_for("users.login"))
+        mensagem = "Usuário não encontrado"
+        return render_template("login.html", mensagem=mensagem)
     else:
         return render_template("login.html")
         

@@ -7,16 +7,23 @@ class Lending():
     def cadastro(cls, usuario, livro, devolucao, valor, user):
         conn = obter_conexao()  
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("INSERT INTO tb_lending (len_data_devolucao,  len_valor, len_lei_id, len_boo_id, len_use_id) VALUES ((curdate() + interval %s day),%s, %s, %s, %s)", ( devolucao, valor,usuario, livro, user ))
+        cursor.execute("CALL validar_emprestimo(%s,%s,CURDATE() + interval %s day,%s,%s, @mensagem)", (usuario, livro, int(devolucao), valor, user))
+        cursor.execute("SELECT @mensagem LIMIT 1")
+        mensagem = cursor.fetchone()
         conn.commit()
         conn.close()
+        return mensagem
 
     @classmethod
     def listar(cls, order_by):
         conn = obter_conexao()  
         cursor = conn.cursor(dictionary=True)
-        query = f'SELECT * FROM tb_lending join tb_leitores on lei_id = len_lei_id join tb_books on boo_id = len_boo_id ORDER BY len_data_emprestimo {order_by}'
-        cursor.execute(query)
+        if order_by != "" and order_by != None:
+            query = 'SELECT * FROM tb_lending join tb_leitores on lei_id = len_lei_id join tb_books on boo_id = len_boo_id ORDER BY len_data_emprestimo %s'
+            cursor.execute(query, (order_by,))
+        else:
+            query = 'SELECT * FROM tb_lending join tb_leitores on lei_id = len_lei_id join tb_books on boo_id = len_boo_id ORDER BY len_data_emprestimo'
+            cursor.execute(query)
         emprestimos = cursor.fetchall()
         cursor.close()
         conn.close()

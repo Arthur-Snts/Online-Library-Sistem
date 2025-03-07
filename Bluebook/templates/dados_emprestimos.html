@@ -2,101 +2,55 @@
 {% block title %}
     Dados - Empréstimo
 {% endblock %}
-    {% block content %}
-    
 
-        <div class="container_list container_list2" id="container_list">
-            <div class="container_userd">
-                <h1>Dados dos Empréstimos</h1>
-                <h1 style="font-size: 20px;">{{mensagem}}</h1>
-                <br>
+{% block content %}
+    <div class="container_list container_list2" id="container_list">
+        <div class="container_userd">
+            <h1>Dados dos Empréstimos</h1>
+            <h1 style="font-size: 20px;">{{mensagem}}</h1>
+            <br>
 
-                <div class="table-scroll-container">
-                    <table>
-                        <thead>
+            <div class="table-scroll-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Leitor</th>
+                            <th>Livro</th>
+                            <th>Foi Devolvido?</th>
+                            <th>Valor</th>
+                            <th>Data de Empréstimo</th>
+                            <th>Data de Devolução</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for emp in emprestimos %}
                             <tr>
-                                <th>Leitor</th>
-                                <th>Livro</th>
-                                <th>Foi Devolvido?</th>
-                                <th>Valor</th>
-                                <th>Data de Empréstimo</th>
-                                <th>Data de Devolução</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                        
-                            {% for emp in emprestimos %}
-                                
-                            
-                            <tr>
-                                <td>{{emp.lei_nome}}</td>
-                                <td>{{emp.boo_titulo}}</td>
+                                <td>{{ emp.lei_nome }}</td>
+                                <td>{{ emp.boo_titulo }}</td>
                                 <td>
-                                    
-                                        {% if emp.len_devolvido == 0 %}
-                                            Não
-                                        {% else %}
-                                            Sim
-                                        {% endif %}
+                                    {% if emp.len_devolvido == 0 %}
+                                        Não
+                                    {% else %}
+                                        Sim
+                                    {% endif %}
                                 </td>
-                                <td>{{emp.len_valor}}</td>
-                                <td>{{emp.len_data_emprestimo}}</td>
-                                <td>{{emp.len_data_devolucao}}</td>
+                                <td>{{ emp.len_valor }}</td>
+                                <td>{{ emp.len_data_emprestimo }}</td>
+                                <td>{{ emp.len_data_devolucao }}</td>
                                 <td id="td-button">
-                                    <button type="submit" id="editar"><a href="{{ url_for('lendings.editar_lending', id=emp.len_id) }}" style="text-decoration: none; color: white;">Editar</a></button>
-                                    <button type="submit" id="excluir"><a href="{{ url_for('lendings.excluir_lending', id=emp.len_id) }}" style="text-decoration: none; color: white;">Excluir</a></button>
-                                    <button type="submit" id="devolver"><a href="#" style="text-decoration: none; color: white;">Devolver</a></button>
-
+                                    <button type="submit" id="editar">
+                                        <a href="{{ url_for('lendings.editar_lending', id=emp.len_id) }}" style="text-decoration: none; color: white;">Editar</a>
+                                    </button>
+                                    <button type="submit" id="excluir">
+                                        <a href="{{ url_for('lendings.excluir_lending', id=emp.len_id) }}" style="text-decoration: none; color: white;">Excluir</a>
+                                    </button>
+                                    <button class="devolver"><a href="{{ url_for('lendings.devolver', id=emp.len_id) }}" style="text-decoration: none; color: white;">Devolver</a></button>
                                 </td>
                             </tr> 
-                            {% endfor %} 
-                            
-                        </tbody>
-                    </table>
-                </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-    {% endblock %}
-<!-- Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Confirmação de Devolução</h2>
-            <p>Você tem certeza que deseja devolver este livro?</p>
-            <button id="confirm-devolver">Confirmar Devolução</button>
-        </div>
     </div>
-
-    <script>
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("devolver");
-        var span = document.getElementsByClassName("close")[0];
-
-        // Quando o botão é clicado, abre o modal
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        // Quando o usuário clica no botão de fechar (x), fecha o modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // Quando o usuário clica fora do modal, fecha o modal
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // Quando o usuário clica no botão de confirmar devolução
-        document.getElementById("confirm-devolver").onclick = function() {
-            // Aqui você pode adicionar a lógica para processar a devolução
-            alert("Devolução confirmada!");
-            modal.style.display = "none"; // Fecha o modal
-        }
-    </script>
-
-</body>
-</html>
+{% endblock %}
