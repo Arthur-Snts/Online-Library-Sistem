@@ -71,6 +71,7 @@ def excluir_book(id):
         if id == lending['len_boo_id']:
             mensagem = "Esse Livro está sendo emprestado, Impossível Excluir"
             books = Book.all()
-            return render_template("dados_livros.html", books=books, mensagem = mensagem)
+            user = current_user
+            return render_template("dados_livros.html", books=books, mensagem = mensagem, user=user)
     Book.delete(id)
     return redirect(url_for('books.listar_book'))

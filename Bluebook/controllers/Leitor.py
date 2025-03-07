@@ -70,9 +70,10 @@ def editar_leitor(id):
 def excluir_leitor(id):
     lendings = Lending.listar("")
     for lending in lendings:
-        if id == lending['len_use_id']:
+        if id == lending['len_lei_id']:
             mensagem = "Possui um empréstimo com esse Usuário, Impossível Excluir"
             leitores = Leitor.all()
-            return render_template("dados_leitores.html", leitores = leitores, mensagem = mensagem)
+            user = current_user
+            return render_template("dados_leitores.html", leitores = leitores, mensagem = mensagem, user=user)
     Leitor.delete(id)
     return redirect(url_for('leitores.listar_leitor'))
