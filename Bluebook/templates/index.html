@@ -30,7 +30,7 @@
     
             <ul id="side_items">
                
-                <li class="side-item active">
+                <li class="side-item {% if request.endpoint == 'index' %}active{% endif %} ">
                     <a href="{{url_for('index')}}">
                         <i class="fa-solid fa-chart-line"></i>
                         <span class="item-description">
@@ -40,7 +40,7 @@
                 </li>
                 {% if user %} 
                     {% if user.tipo == "admin" %}
-                        <li class="side-item">  
+                        <li class="side-item {% if request.endpoint == 'users.register' %}active{% endif %} ">  
                             <a href="{{url_for('users.register')}}">
                                 <i class="fa-solid fa-user"></i>
                                 <span class="item-description">
@@ -51,7 +51,7 @@
                     {% endif %}
                 {% endif %}    
 
-                <li class="side-item {% if active_page == 'user' %}active{% endif %}">
+                <li class="side-item {% if request.endpoint == 'leitores.register_leitor' %}active{% endif %} ">
                     <a href="{{url_for('leitores.register_leitor')}}">
                         <i class="fa-solid fa-book-open-reader"></i>
                         <span class="item-description">
@@ -60,7 +60,7 @@
                     </a>
                 </li>
 
-                <li class="side-item {% if active_page == 'book' %}active{% endif %}">
+                <li class="side-item {% if request.endpoint == 'books.register_book' %}active{% endif %} ">
                     <a href="{{url_for('books.register_book')}}">
                         <i class="fa-solid fa-book"></i>
                         <span class="item-description">
@@ -69,7 +69,7 @@
                     </a>
                 </li>
 
-                <li class="side-item {% if active_page == 'lending' %}active{% endif %}" >
+                <li class="side-item {% if request.endpoint == 'lendings.register_lending' %}active{% endif %} " >
                     <a href="{{url_for('lendings.register_lending')}}">
                         <i class="fa-solid fa-money-check-dollar"></i>
                         <span class="item-description">
@@ -78,7 +78,7 @@
                     </a>
                 </li>
 
-                <li class="side-item {% if active_page == 'pg_listagem' %}active{% endif %}">
+                <li class="side-item {% if request.endpoint == 'listagem.listagens' %}active{% endif %} ">
                     <a href="{{url_for('listagem.listagens')}} ">
                         <i class="fa-solid fa-list"></i>
                         <span class="item-description">
@@ -88,7 +88,7 @@
                 </li>
                 
                 
-                <li class="side-item {% if active_page == 'dados_livros' %}active{% endif %}">
+                <li class="side-item {% if request.endpoint == 'leitores.dados_leitores' %}active{% endif %} ">
                     <a href="{{url_for('leitores.dados_leitores')}}">
                         <i class="fa-solid fa-users"></i>
                         <span class="item-description">
@@ -97,7 +97,7 @@
                     </a>
                 </li>
 
-                <li class="side-item {% if active_page == 'dados_livros' %}active{% endif %}">
+                <li class="side-item {% if request.endpoint == 'books.dados_livros' %}active{% endif %} ">
                     <a href="{{url_for('books.dados_livros')}}">
                         <i class="fa-solid fa-book-open"></i>
                         <span class="item-description">
@@ -106,7 +106,7 @@
                     </a>
                 </li>
 
-                <li class="side-item {% if active_page == 'dados_emprestimos' %}active{% endif %}">
+                <li class="side-item {% if request.endpoint == 'lendings.dados_emprestimos' %}active{% endif %} ">
                     <a href="{{url_for('lendings.dados_emprestimos')}}">
                         <i class="fa-solid fa-money-check"></i>
                         <span class="item-description">
@@ -116,7 +116,7 @@
                 </li>
                 {% if user %} 
                     {% if user.tipo == "admin" %}
-                        <li class="side-item">
+                        <li class="side-item {% if request.endpoint == 'listagem.logs' %}active{% endif %} ">
                             <a href="{{url_for('listagem.logs')}}">
                                 <i class="fa-solid fa-right-to-bracket"></i>
                                 <span class="item-description">

@@ -10,7 +10,8 @@ bp = Blueprint("listagem", __name__, url_prefix="/listagem")
 @bp.route('/')
 @login_required
 def listagens():
-    return render_template("pg_listagem.html")
+    user = current_user
+    return render_template("pg_listagem.html", user = user)
 
 
 @bp.route('/filtro1', methods=['GET', 'POST'])
