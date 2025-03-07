@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static\css\style_logCad.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css' ) }}">
     <title> Login </title>
 </head>
 <body>
     <div class="container" id="container">
         <div class="form-container sign-in">
-            <form>
+            <form action="{{ url_for('users.login' ) }}" method="post">
                 <h1>Login</h1>
                 <div class="static-div"> </div>
                 <span>Forneça os detalhes requeridos</span >
-                <input type="email" placeholder="Email" for="email">
-                <input type="senha" placeholder="Senha" for="senha">
+                <input type="name" placeholder="Login" for="name" name="nome">
+                <input type="password" placeholder="Senha" for="senha" name="senha">
                 <button>Entrar</button>
             </form>
         </div>

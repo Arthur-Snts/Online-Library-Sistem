@@ -1,3 +1,5 @@
+
+
 CREATE DATABASE db_bluebook;
 use db_bluebook;
 
@@ -6,7 +8,7 @@ CREATE TABLE IF NOT EXISTS tb_leitores (
     lei_nome TEXT NOT NULL,
     lei_email TEXT NOT NULL,
     lei_telefone VARCHAR(200) NOT NULL,
-    lei_endereço VARCHAR(200) NOT NULL
+    lei_endereco VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_users (
@@ -27,27 +29,27 @@ CREATE TABLE IF NOT EXISTS tb_books (
 
 CREATE TABLE IF NOT EXISTS tb_lending(
     len_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    len_data_emprestimo DATE NOT NULL,
+    len_data_emprestimo DATE NOT NULL DEFAULT current_timestamp,
     len_data_devolucao DATE NOT NULL,
     len_devolvido BOOLEAN NOT NULL,
     len_valor DECIMAL(10, 2),
     len_boo_id INT NOT NULL,
-    len_use_id INT NOT NULL,
+    len_lei_id INT NOT NULL,
     
 	FOREIGN KEY (len_boo_id) REFERENCES tb_books(boo_id),
-    FOREIGN KEY (len_use_id) REFERENCES tb_users(use_id)
+    FOREIGN KEY (len_lei_id) REFERENCES tb_leitores(lei_id)
 );
 
 CREATE TABLE IF NOT EXISTS tb_logs (
     log_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     log_operacao VARCHAR(20) NOT NULL,
     log_len_id INT NOT NULL,
-    log_usu_id INT NOT NULL,
+    log_lei_id INT NOT NULL,
     log_usuario TEXT NOT NULL,
     log_data_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     
-    FOREIGN KEY (log_usu_id)
-        REFERENCES tb_users (use_id)
+    FOREIGN KEY (log_lei_id)
+        REFERENCES tb_leitores (lei_id)
 );
 
 #criação da função que calcula valor da multa
@@ -94,7 +96,7 @@ BEGIN
     DECLARE usuario_existe INT;
 
     SELECT COUNT(*) INTO livro_existe FROM tb_books WHERE boo_id = livro_id;
-    SELECT COUNT(*) INTO usuario_existe FROM tb_users WHERE use_id = usuario_id;
+    SELECT COUNT(*) INTO usuario_existe FROM tb_leitores WHERE lei_id = usuario_id;
 
     IF livro_existe = 0 THEN
         SET mensagem = 'Livro não encontrado';
@@ -108,7 +110,7 @@ BEGIN
         ELSE
             SELECT COALESCE(SUM(calcular_multa(len_boo_id)), 0) INTO total_multa
             FROM tb_lending
-            WHERE len_use_id = usuario_id AND len_devolvido = FALSE;
+            WHERE len_lei_id = usuario_id AND len_devolvido = FALSE;
 
             IF total_multa > 0 THEN
                 SET mensagem = CONCAT('Empréstimo bloqueado. Multa pendente: R$', total_multa);
@@ -125,7 +127,7 @@ BEGIN
                         len_devolvido,
                         len_valor,
                         len_boo_id,
-                        len_use_id
+                        len_lei_id
                     ) 
                     VALUES (
                         CURDATE(),
@@ -159,7 +161,7 @@ AFTER INSERT ON tb_lending
 FOR EACH ROW
 BEGIN
     INSERT INTO tb_logs (log_operacao, log_len_id, log_usu_id, log_usuario)
-    VALUES ('INSERT', NEW.len_id, NEW.len_use_id, (SELECT use_nome FROM tb_users WHERE use_id = NEW.len_use_id));
+    VALUES ('INSERT', NEW.len_id, NEW.len_lei_id, (SELECT use_nome FROM tb_users WHERE use_id = NEW.len_lei_id));
 END;
 
 //
@@ -170,7 +172,7 @@ FOR EACH ROW
 BEGIN
 
     INSERT INTO tb_logs (log_operacao, log_len_id, log_usu_id, log_usuario)
-    VALUES ('UPDATE', NEW.len_id, NEW.len_use_id, (SELECT use_nome FROM tb_users WHERE use_id = NEW.len_use_id));
+    VALUES ('UPDATE', NEW.len_id, NEW.len_lei_id, (SELECT use_nome FROM tb_users WHERE use_id = NEW.len_lei_id));
 END;
 
 //
@@ -180,7 +182,7 @@ AFTER DELETE ON tb_lending
 FOR EACH ROW
 BEGIN
    INSERT INTO tb_logs (log_operacao, log_len_id, log_usu_id, log_usuario)
-   VALUES ('DELETE', OLD.len_id, OLD.len_use_id, (SELECT use_nome FROM tb_users WHERE use_id = OLD.len_use_id));
+   VALUES ('DELETE', OLD.len_id, OLD.len_lei_id, (SELECT use_nome FROM tb_users WHERE use_id = OLD.len_lei_id));
 END;
 
 //

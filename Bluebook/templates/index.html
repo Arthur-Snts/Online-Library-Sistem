@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <title>index</title>
+    {% block style %}
+        <link rel="stylesheet" href="/static/css/style.css">
+    {% endblock %}
+    <title>{% block title %}
+        Página Inicial
+    {% endblock %}</title>
 </head>
 <body>
     <nav id="sidebar">
         <div id="sidebar_content">
             <div id="user">
-                <img src="static/images/avatar3.jpg " id="user_avatar" alt="Avatar">
+                <img src="/static/images/avatar3.jpg " id="user_avatar" alt="Avatar">
     
                 <p id="user_infos">
                     <span class="item-description">
-                        Tipo de usuário 
+                        {{user.tipo}}
                         <!-- Usuário Admin ou Funcionário ? Pegar no banco  -->
                     </span>
                     <span class="item-description">
@@ -34,29 +38,21 @@
                         </span>
                     </a>
                 </li>
-
-                  <!-- Funcionalidade Admin -->
-                  <!-- <li class="side-item">  
-                    <a href="{{url_for('cadastro')}}">
-                        <i class="fa-solid fa-user"></i>
-                        <span class="item-description">
-                            Adicionar Usuários do Sistema
-                        </span>
-                    </a>
-                </li>  -->
-
-                  <!-- Funcionalidade Admin -->
-                  <!-- <li class="side-item">
-                    <a href="{{url_for('logs')}}">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        <span class="item-description">
-                            Logs no sistema 
-                        </span>
-                    </a>
-                </li>  -->
+                {% if user %} 
+                    {% if user.tipo == "admin" %}
+                        <li class="side-item">  
+                            <a href="{{url_for('users.register')}}">
+                                <i class="fa-solid fa-user"></i>
+                                <span class="item-description">
+                                    Adicionar Usuários
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endif %}    
 
                 <li class="side-item {% if active_page == 'user' %}active{% endif %}">
-                    <a href="{{url_for('user')}}">
+                    <a href="{{url_for('leitores.register_leitor')}}">
                         <i class="fa-solid fa-book-open-reader"></i>
                         <span class="item-description">
                             Adicionar Leitor
@@ -65,7 +61,7 @@
                 </li>
 
                 <li class="side-item {% if active_page == 'book' %}active{% endif %}">
-                    <a href="{{url_for('book')}}">
+                    <a href="{{url_for('books.register_book')}}">
                         <i class="fa-solid fa-book"></i>
                         <span class="item-description">
                             Adicionar Livro
@@ -74,7 +70,7 @@
                 </li>
 
                 <li class="side-item {% if active_page == 'lending' %}active{% endif %}" >
-                    <a href="{{url_for('lending')}}">
+                    <a href="{{url_for('lendings.register_lending')}}">
                         <i class="fa-solid fa-money-check-dollar"></i>
                         <span class="item-description">
                             Realizar Empréstimo
@@ -83,35 +79,17 @@
                 </li>
 
                 <li class="side-item {% if active_page == 'pg_listagem' %}active{% endif %}">
-                    <a href="{{url_for('pg_listagem')}} ">
+                    <a href="{{url_for('listagem.listagens')}} ">
                         <i class="fa-solid fa-list"></i>
                         <span class="item-description">
                             Listagens
                         </span>
                     </a>
                 </li>
-
-                <li class="side-item  {% if active_page == 'dados_usuarios' %}active{% endif %}">
-                    <a href="{{url_for('editar_usuarios')}}">
-                        <i class="fa-solid fa-user-pen"></i>
-                        <span class="item-description">
-                            Editar Leitor
-                        </span>
-                    </a>
-                </li>
-
-
-                <li class="side-item {% if active_page == 'dados_livros' %}active{% endif %}">
-                    <a href="{{url_for('editar_livros')}}">
-                        <i class="fa-solid fa-file-pen"></i>
-                        <span class="item-description">
-                           Editar Livro
-                        </span>
-                    </a>
-                </li>
+                
                 
                 <li class="side-item {% if active_page == 'dados_livros' %}active{% endif %}">
-                    <a href="{{url_for('dados_usuarios')}}">
+                    <a href="{{url_for('leitores.dados_leitores')}}">
                         <i class="fa-solid fa-users"></i>
                         <span class="item-description">
                           Dados - Usuários
@@ -120,7 +98,7 @@
                 </li>
 
                 <li class="side-item {% if active_page == 'dados_livros' %}active{% endif %}">
-                    <a href="{{url_for('dados_livros')}}">
+                    <a href="{{url_for('books.dados_livros')}}">
                         <i class="fa-solid fa-book-open"></i>
                         <span class="item-description">
                           Dados - Livros
@@ -129,13 +107,25 @@
                 </li>
 
                 <li class="side-item {% if active_page == 'dados_emprestimos' %}active{% endif %}">
-                    <a href="{{url_for('dados_emprestimos')}}">
+                    <a href="{{url_for('lendings.dados_emprestimos')}}">
                         <i class="fa-solid fa-money-check"></i>
                         <span class="item-description">
                           Dados - Empréstimos
                         </span>
                     </a>
                 </li>
+                {% if user %} 
+                    {% if user.tipo == "admin" %}
+                        <li class="side-item">
+                            <a href="{{url_for('listagem.logs')}}">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                <span class="item-description">
+                                    Logs no sistema 
+                                </span>
+                            </a>
+                        </li> 
+                    {% endif %}
+                {% endif %} 
             </ul>
            
             <button id="open_btn">
@@ -144,28 +134,34 @@
         </div>
 
         <div id="logout">
-            <button id="logout_btn">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span class="item-description">
-                    Logout
-                </span>
-            </button>
+            <a href="{{ url_for('users.logout' ) }}" style="text-decoration: none;">
+                <button id="logout_btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="item-description">
+                        Logout
+                    </span>
+                </button>
+            </a>
         </div>
+        
     </nav>
 
     <header>
         <div class="logo">
-                <img src="static/images/bluebooklog.png" alt="Logo">
+                <img src="/static/images/bluebooklog.png" alt="Logo">
         </div> 
     </header>
     <main>
+        {% block content %}
+            
+        
         <div class="intro_cadliv">
             <h3>Novo Leitor</h3>
             <br>
             <p>Use a função "Novo Leitor" para cadastrar um novo Usuário</p>
             <img src="{{ url_for('static', filename='images/index_Nu.svg') }}" alt="Imagem" class="New_user_image">
             <br>
-            <a href="#" class="button_cadliv"><button>Entrar</button></a>
+            <a href="{{ url_for('leitores.register_leitor' ) }}" class="button_cadliv"><button>Entrar</button></a>
         </div>
 
         <div class="intro_cadliv">
@@ -174,27 +170,31 @@
             <p>Use a função "Novo Livro" para cadastrar um novo Livro</p>
             <img class="image-index_NL" src="{{ url_for('static', filename='images/index_NL.svg') }}" alt="Imagem" class="New_user_image">
             <br>
-            <a href="#" class="button_cadliv"><button>Entrar</button></a>
+            <a href="{{ url_for('books.register_book' ) }}" class="button_cadliv"><button>Entrar</button></a>
         </div>
 
         <div class="intro_cadliv">
-            <h3>Empréstimos</h3>
+            <h3>Empréstimo</h3>
             <br>
-            <p>Use a função "Novo Leitor" para cadastrar um novo Usuário</p>
+            <p style="font-size: 13.5px;">Use a função "Empréstimo" para cadastrar um novo Empréstimo</p>
             <img class="image-index_EP" src="{{ url_for('static', filename='images/index_EP.svg') }}" alt="Imagem" class="New_user_image">
             <br>
-            <a href="#" class="button_cadliv"><button>Entrar</button></a>
+            <a href="{{ url_for('lendings.register_lending' ) }}" class="button_cadliv"><button>Entrar</button></a>
         </div>
 
-        <!-- Função exclusiva de Admins -->
-        <!-- <div class="intro_cadliv">
-            <h3>Logs</h3>
-            <br>
-            <p>Use a função "Logs" para visualizar os logs no Sistema</p>
-            <img class="image-index_Lg" src="{{ url_for('static', filename='images/index-LG.svg') }}" alt="Imagem" class="New_user_image">
-            <br>
-            <a href="#" class="button_cadliv"><button>Entrar</button></a>
-        </div> -->
+        {% if user %} 
+            {% if user.tipo == "admin" %}
+                <div class="intro_cadliv">
+                    <h3>Logs</h3>
+                    <br>
+                    <p>Use a função "Logs" para visualizar os logs no Sistema</p>
+                    <img class="image-index_Lg" src="{{ url_for('static', filename='images/index-LG.svg') }}" alt="Imagem" class="New_user_image">
+                    <br>
+                    <a href="{{ url_for('listagem.logs' ) }}" class="button_cadliv"><button>Entrar</button></a>
+                </div>
+            {% endif %}
+        {% endif %}             
+        {% endblock %}
     </main>
 
     <script>

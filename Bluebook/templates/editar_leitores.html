@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% block title %}
+    Editar - Leitor
+{% endblock %}
+{% block content %}
+
+        <div class="container_cadliv" id="container_cadliv">
+                <form class="form" method="post" action="{{ url_for('leitores.editar_leitor', id=leitor.lei_id ) }}">
+                    <br>
+                    <h1>Editar dados do Leitor</h1>
+                    <br>
+                    <span>Insira os novos dados do leitor
+                    </span> <br>
+
+                    <label class="label-input" for="nome">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" placeholder="Nome do Leitor " for="nome" name="nome" value="{{leitor.lei_nome}}">
+                    </label>
+                    
+                    <label class="label-input" for="email">
+                        <i class="far fa-envelope icon-modify"></i>
+                        <input type="email" placeholder="usuario@example.com" for="email" name="email" value="{{leitor.lei_email}}">
+                    </label>
+                    
+                    <label class="label-input" for="telefone">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" placeholder="(XX) XXXX-XXXX" for="telefone" name="telefone" value="{{leitor.lei_telefone}}">
+                    </label>
+                    
+                    <label class="label-input" for="endereco">
+                        <i class="fa-sharp fa-solid fa-location-dot"></i>
+                        <input type="text" placeholder="Endereço" for="endereco" name="endereco" value="{{leitor.lei_endereco}}">
+                    </label>
+                 
+                    <button type="submit">Concluir</button>
+                </form>
+        </div>
+{% endblock %}
+</body>
+</html>

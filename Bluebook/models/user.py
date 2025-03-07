@@ -1,64 +1,51 @@
 from database import obter_conexao
+from flask_login import UserMixin
 
-class User():
+class User(UserMixin):
+    id: str
+    def __init__(self, nome, senha, tipo):
+        self.nome = nome
+        self.senha = senha
+        self.tipo = tipo
     
-
+    @classmethod
+    def get(cls, id):
+        conexao = obter_conexao()
+        cursor = conexao.cursor()
+        SELECT = 'SELECT * FROM tb_users WHERE use_id=%s'
+        cursor.execute(SELECT, (id,))
+        dados = cursor.fetchone()
+        if dados:
+            user = User(dados[1], dados[2], dados[3])
+            user.id = dados[0]
+        else: 
+            user = None
+        return user
+    
     @classmethod
     def all(cls):
-        conn = obter_conexao()  
-        cursor = conn.cursor(dictionary=True)
-
-        cursor.execute('SELECT * FROM tb_users')
-        consulta_usuarios = cursor.fetchall()
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        return consulta_usuarios
-    
-    @classmethod
-    def cadastro(cls, nome, email, telefone, endereco):
-        conn = obter_conexao()  
-        cursor = conn.cursor()      
-        cursor.execute("INSERT INTO tb_users (use_nome, use_email, use_telefone, use_endereco) VALUES (%s, %s, %s, %s)", (nome, email, telefone, endereco))
-        conn.commit()
-        conn.close()
-    
-    @classmethod
-    def listar(cls, order_by):
-        conn = obter_conexao()  
-        cursor = conn.cursor(dictionary=True)
-        query = f'SELECT * FROM tb_users ORDER BY use_nome {order_by}'
-        cursor.execute(query)
+        conn = obter_conexao()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * from tb_users")
         users = cursor.fetchall()
-        cursor.close()
+        conn.commit()
         conn.close()
         return users
+    
     @classmethod
-    def one(cls, id):
-        conn = obter_conexao()  
-        cursor = conn.cursor(dictionary=True)
-        query = f'SELECT * FROM tb_users where use_id = {id}'
-        cursor.execute(query)
-        user = cursor.fetchall()
-        cursor.close()
-        conn.close()
+    def nome(cls, nome):
+        conn = obter_conexao()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * from tb_users WHERE use_nome=%s", (nome,))
+        dados = cursor.fetchone()
+        user = User(dados[1], dados[2], dados[3])
+        user.id = dados[0]
         return user
+    
     @classmethod
-    def delete(cls,id):
+    def insert(cls, nome, tipo, senha):
         conn = obter_conexao()
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM tb_users WHERE use_id = %s', (id,))
+        cursor.execute("INSERT INTO tb_users (use_nome, use_senha, use_tipo) VALUES (%s, %s, %s)", (nome, senha, tipo ))
         conn.commit()
-        cursor.close()
-        conn.close()
-    @classmethod
-    def update(cls, id, nome, email, telefone, endereco):
-        conn = obter_conexao()
-        cursor = conn.cursor()
-
-        query = 'UPDATE tb_users SET use_nome = %s, use_email = %s, use_telefone = %s, use_endereco = %s WHERE use_id = %s'
-        cursor.execute(query, (nome, email, telefone, endereco,id))
-        conn.commit()
-        cursor.close()
         conn.close()

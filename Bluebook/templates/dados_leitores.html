@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+    {% block title %}
+        Dados - Usuário
+    {% endblock %}
+    {% block content %}
+    
+
+        <div class="container_list container_list2" id="container_list">
+            <div class="container_userd">
+                <h1>Dados do Usuário</h1>
+                <h1 style="font-size: 20px;">{{mensagem}}</h1>
+                <br>
+
+                <div class="table-scroll-container">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Endereço</th>
+                                <th>Telefone</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for leitor in leitores %}
+                            <tr>
+                                <td>{{leitor.lei_nome}}</td>
+                                <td>{{leitor.lei_endereco}}</td>
+                                <td>{{leitor.lei_telefone}}</td>
+                                <td>{{leitor.lei_email}}</td>
+                                <td id="td-button">
+                                    <button type="submit" id="editar"><a href="{{ url_for('leitores.editar_leitor', id=leitor.lei_id) }}" style="text-decoration: none; color: white;">Editar</a></button>
+                                    <button type="submit" id="excluir"><a href="{{ url_for('leitores.excluir_leitor', id=leitor.lei_id) }}" style="text-decoration: none; color: white;">Excluir</a></button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        
+                    </table>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+    {% endblock %}
+</body>
+
+</html>
+
+
+

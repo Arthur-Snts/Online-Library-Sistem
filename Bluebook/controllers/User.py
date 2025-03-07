@@ -1,68 +1,41 @@
 from flask import Blueprint, render_template, request, url_for, redirect
+from flask_login import login_required, login_user, logout_user, current_user
 from models.User import User
-from models.Lending import Lending
-from database import obter_conexao
 
-bp = Blueprint("users", __name__, url_prefix="/users")
+bp = Blueprint(url_prefix="/users", name="users", import_name=__name__)
 
-
-@bp.route('/register_user', methods=['POST', 'GET'])
-def register_user():
-    if request.method == 'POST':
+@bp.route('/login', methods = ["POST", "GET"])
+def login():
+    if request.method == "POST":
         nome = request.form["nome"]
-        email = request.form["email"]
-        telefone = request.form["telefone"]
-        endereco = request.form['endereco']
-
-        User.cadastro(nome, email, telefone, endereco)
-
-        return redirect(url_for('users.listar_user'))
-    users = User.all()
-    return render_template('user.html',users = users)
-
-
-@bp.route('/listar_user', methods=['POST', 'GET'])
-def listar_user():
-    
-    if request.method == 'POST':
-        order_by = request.form.get('status')
-
-        users = User.listar(order_by)
+        senha = request.form["senha"]
+        users = User.all()
+        for usuario in users:
+            print(usuario[1])
+            if nome in usuario[1]:
+                user = User.nome(nome=nome)
+                if user.senha == senha:
+                    login_user(user)
+                    return redirect(url_for("index"))
+        return redirect(url_for("users.login"))
+    else:
+        return render_template("login.html")
         
-        
-        
-        return render_template('user.html', users=users)
-    users = User.all()
-    return render_template('user.html', users = users)
 
+@bp.route('/cadastro', methods = ["POST", "GET"])
+def register():
+    if request.method == "POST":
+        nome = request.form["nome"]
+        senha = request.form["senha"]
+        tipo = request.form["tipo"]
+        User.insert(nome=nome, tipo=tipo, senha=senha)
+        return redirect(url_for("index"))
+    else:
+        user = current_user
+        return render_template("cadastro.html", user = user)
 
-@bp.route('/dados_users/')
-def dados_users():
-    users = User.all()
-    return render_template("dados_usuarios.html", users=users)
-
-@bp.route('/editar_user/<int:id>', methods=['GET', 'POST'])
-def editar_user(id):
-    
-
-    if request.method == 'POST':
-        nome = request.form.get('nome')
-        email = request.form.get('email')
-        telefone = request.form.get('telefone')
-        endereco = request.form.get('endereco')
-        User.update(id, nome, email, telefone, endereco)
-        return redirect(url_for('users.listar_user'))
-    user = User.one(id)
-    return render_template('editar_usuarios.html', user = user)
-
-
-@bp.route('/apagar_user/<int:id>')
-def excluir_user(id):
-    lendings = Lending.listar("")
-    for lending in lendings:
-        if id == lending['len_use_id']:
-            mensagem = "Possui um empréstimo com esse Usuário, Impossível Excluir"
-            users = User.all()
-            return render_template("dados_usuarios.html", users = users, mensagem = mensagem)
-    User.delete(id)
-    return redirect(url_for('users.listar_user'))
+@bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("index"))

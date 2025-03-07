@@ -2,11 +2,13 @@ from flask import Blueprint, render_template, request, url_for, redirect
 from models.Book import Book
 from models.Lending import Lending
 from database import obter_conexao
+from flask_login import login_required, current_user
 
 bp = Blueprint("books", __name__, url_prefix="/books")
 
 
 @bp.route('/register_book', methods=['GET', 'POST'])
+@login_required
 def register_book():
     if request.method == 'POST':
         titulo = request.form["titulo"]
@@ -19,9 +21,11 @@ def register_book():
         return redirect(url_for('books.listar_book'))
     
     books= Book.listar(order_by='')
-    return render_template('book.html', books=books)
+    user = current_user
+    return render_template('book.html', books=books, user = user)
 
 @bp.route('/listar_book', methods=['GET', 'POST'])
+@login_required
 def listar_book():
 
     books= Book.listar(order_by='asc')
@@ -30,16 +34,19 @@ def listar_book():
 
         
         books = Book.listar(order_by=order_by)
-    
-    return render_template('book.html', books = books)
+    user = current_user
+    return render_template('book.html', books = books, user = user)
 
 @bp.route('/dados_livro')
+@login_required
 def dados_livros():
     books = Book.all()
-    return render_template("dados_livros.html", books=books)
+    user = current_user
+    return render_template("dados_livros.html", books=books, user=user)
 
 
 @bp.route('/editar_book/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_book(id):
     
 
@@ -52,10 +59,12 @@ def editar_book(id):
         Book.update(id,titulo, autor, genero, isbn, estoque)
         return redirect(url_for('books.listar_book'))
     book = Book.one(id)
-    return render_template('editar_livros.html', book = book)
+    user = current_user
+    return render_template('editar_livros.html', book = book, user = user)
 
 
 @bp.route('/apagar_book/<int:id>')
+@login_required
 def excluir_book(id):
     lendings = Lending.listar("")
     for lending in lendings:

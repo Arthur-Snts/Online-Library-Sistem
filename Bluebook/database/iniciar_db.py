@@ -1,4 +1,3 @@
-# Importando o conector MySQL
 import mysql.connector
 
 db_config = {
@@ -9,36 +8,28 @@ db_config = {
 }
 
 try:
-    # Tentando estabelecer uma conexão
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
-    print("Conexão estabelecida com sucesso.")
-    
-    # Localização do SQL
-    SCHEMA = "database/schema.sql"
 
-    # Declara o SQL para o banco
-    with open(SCHEMA, 'r') as f:
+    with open("database/schema.sql", "r") as f:
         sql_script = f.read()
 
-    # Executa cada statement do script SQL
-    for statement in sql_script.split(';'):
-        if statement.strip():  # Evita statements vazios
+    # Executando comandos individualmente para capturar saídas
+    for statement in sql_script.split(";"):
+        statement = statement.strip()
+        if statement:
             try:
+                print(f"Executando: {statement[:100]}...")  # Mostra os primeiros 100 caracteres
                 cursor.execute(statement)
             except mysql.connector.Error as e:
-                print(f"Erro ao executar statement: {e}")
+                print(f"Erro ao executar: {e}")
 
-    # Commit das operações
     conn.commit()
     print("Script executado com sucesso.")
 
 except mysql.connector.Error as erro:
-    print(f"Erro ao conectar ou executar operações no banco de dados: {erro}")
+    print(f"Erro no banco de dados: {erro}")
 
 finally:
-    # Garante que cursor e conexão serão fechados
-    if cursor is not None:
-        cursor.close()
-    if conn is not None:
-        conn.close()
+    cursor.close()
+    conn.close()

@@ -45,3 +45,14 @@ class Listagem():
         cursor.close()
         conn.close()
         return livros
+    
+    @classmethod
+    def logs(cls):
+        conn = obter_conexao()  
+        cursor = conn.cursor(dictionary=True)
+        query = "select * from tb_logs join tb_leitores on log_lei_id = lei_id"
+        cursor.execute(query)
+        logs = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return logs
