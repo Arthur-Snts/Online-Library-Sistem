@@ -4,6 +4,7 @@ from models.Leitor import Leitor
 from models.Book import Book
 from database import obter_conexao
 from flask_login import login_required, current_user
+import ast
 
 bp = Blueprint("lendings", __name__, url_prefix="/lendings")
 
@@ -40,12 +41,23 @@ def listar_lending():
         consulta_usuarios = Leitor.all()
         consulta_livros = Book.all()
         user = current_user
-        return render_template('lending.html', emprestimos=emprestimos, consulta_livros=consulta_livros, consulta_usuarios=consulta_usuarios, user = user)
+        if mensagem in request.args:
+            mensagem = request.args.get("mensagem")
+        return render_template('lending.html', emprestimos=emprestimos, consulta_livros=consulta_livros, consulta_usuarios=consulta_usuarios, user = user, mensagem=mensagem)
     emprestimos = Lending.listar("")
     consulta_usuarios = Leitor.all()
     consulta_livros = Book.all()
     user = current_user
-    return render_template('lending.html', emprestimos=emprestimos , consulta_livros=consulta_livros, consulta_leitores=consulta_usuarios, user = user )
+    
+    if "mensagem" in request.args:
+            mensagem = request.args.get("mensagem")
+            try:
+                mensagem_dict = ast.literal_eval(mensagem)  # Converte string para dicionário real
+                if isinstance(mensagem_dict, dict) and "@mensagem" in mensagem_dict:
+                    mensagem = mensagem_dict["@mensagem"]  # Pega apenas o texto dentro do dicionário
+            except (SyntaxError, ValueError):
+                pass
+    return render_template('lending.html', emprestimos=emprestimos , consulta_livros=consulta_livros, consulta_leitores=consulta_usuarios, user = user, mensagem= mensagem )
 
 @bp.route('/dados_emprestimos/')
 @login_required

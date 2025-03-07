@@ -45,7 +45,12 @@
                         <i class="fa-solid fa-money-check-dollar"></i>
                         <input type="number" id="valor" name="valor" placeholder="Digite o valor" required>
                     </label>
-                      
+                    {% if mensagem == "Empréstimo realizado com sucesso" %}
+                        <span style="color: green; font-weight: bold;">{{mensagem}}</span>
+                    {% else %}
+                        <span style="color: red; font-weight: bold;">{{mensagem}}</span>
+                    {% endif %}
+                    
                     <button type="submit" class="butao_emprestimos">Registrar</button>
                 </form>
         </div>
@@ -62,7 +67,7 @@
                                 <option value="">Recente - Antigo</option>
                                 <option value="desc">Antigo - Recente</option>
                             </select>
-                            <span>{{mensagem}}</span>
+                            
                             <button type="submit" class="butao_filtrar">Filtrar</button>
                         </div>
 

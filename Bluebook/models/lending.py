@@ -7,11 +7,17 @@ class Lending():
     def cadastro(cls, usuario, livro, devolucao, valor, user):
         conn = obter_conexao()  
         cursor = conn.cursor(dictionary=True)
+
+        # Chamar o procedimento armazenado
         cursor.execute("CALL validar_emprestimo(%s,%s,CURDATE() + interval %s day,%s,%s, @mensagem)", (usuario, livro, int(devolucao), valor, user))
-        cursor.execute("SELECT @mensagem LIMIT 1")
+
+        # Buscar a mensagem de saída
+        cursor.execute("SELECT @mensagem")
         mensagem = cursor.fetchone()
+
         conn.commit()
         conn.close()
+
         return mensagem
 
     @classmethod

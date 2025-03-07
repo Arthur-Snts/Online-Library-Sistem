@@ -193,13 +193,14 @@ main {
     align-items: center;
     flex-grow: 1;
     width: 90%;
+    gap: 20px;
 }
 
 .intro_cadliv {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     background-color: #fff;
     padding: 40px;
     border-radius: 15px;
